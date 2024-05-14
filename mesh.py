@@ -75,19 +75,27 @@ def smooth_points(points, min_distance):
 
     return points
 
-def refine_mesh_near_point(points, specified_point, radius, refinement_factor, min_distance):
+def refine_mesh_near_point(points, specified_point, radius, refinement_factor, min_distance, tries, shape):
     refined_points = points.copy()
     for point in points:
         distance = np.sqrt((point.x - specified_point.x) ** 2 + (point.y - specified_point.y) ** 2)
         if distance < radius:
             # Add random points within the specified radius around the point
             for _ in range(refinement_factor):
-                for _ in range(10):  # Try up to 10 times to find a suitable point
-                    angle = np.random.uniform(0, 2 * np.pi)
-                    r = np.random.uniform(0, radius)
-                    new_x = point.x + r * np.cos(angle)
-                    new_y = point.y + r * np.sin(angle)
-                    new_point = Point(new_x, new_y)
+                for _ in range(tries):  # Try up to 10 times to find a suitable point
+                    
+                    if shape == 'circle':
+                        r = np.random.uniform(0, radius)
+                        angle = np.random.uniform(0, 2 * np.pi)
+                        new_x = point.x + r * np.cos(angle)
+                        new_y = point.y + r * np.sin(angle)
+                        new_point = Point(new_x, new_y)
+                    elif shape == 'rectangle':
+                        r1 = np.random.uniform(-radius, radius)
+                        r2 = np.random.uniform(-radius, radius)
+                        new_x = point.x + r1
+                        new_y = point.y + r2
+                        new_point = Point(new_x, new_y)
                     
                     # Check if the new point is too close to existing points
                     if all(np.sqrt((new_point.x - p.x) ** 2 + (new_point.y - p.y) ** 2) >= min_distance for p in refined_points):

@@ -52,7 +52,7 @@ def plot_heat_distribution(triangulation, points, triangle_temperatures):
     plt.scatter([p.x for p in points], [p.y for p in points], color='blue', s=10)  # Plot all nodes
     plt.show()
 
-def animate_refinement(points, specified_points, radius, refinement_factor, min_distance, save_path=None):
+def animate_refinement(points, specified_points, radius, refinement_factor, min_distance, tries, shape, save_path=None):
     refined_points = points
     fig, ax = plt.subplots()
     ax.set_xlim(0, 10)
@@ -79,13 +79,13 @@ def animate_refinement(points, specified_points, radius, refinement_factor, min_
     # Generate frames by refining the mesh step-by-step
     frames = []
     for specified_point in specified_points:
-        for refined_points in refine_mesh_near_point(refined_points, specified_point, radius, refinement_factor, min_distance):
+        for refined_points in refine_mesh_near_point(refined_points, specified_point, radius, refinement_factor, min_distance, tries, shape):
             frames.append(refined_points.copy())
 
-    ani = FuncAnimation(fig, update, frames=frames, interval=300, blit=True, repeat=False)  # Increased interval to slow down
+    ani = FuncAnimation(fig, update, frames=frames, interval=100, blit=True, repeat=False)  # Increased interval to slow down
 
     if save_path:
-        ani.save(save_path, writer='ffmpeg', fps=50)
+        ani.save(save_path, writer='ffmpeg', fps=60)
 
     plt.show()
 
@@ -104,11 +104,13 @@ def main():
     # Refine the mesh near specified points
     specified_points = [Point(5, 5)]  # Example specified points
     radius = 1.0  # Radius around the specified points to refine
-    refinement_factor = 8  # Number of additional points to add around each point within the radius
+    refinement_factor = 100  # Number of additional points to add around each point within the radius
     min_distance = 0.3  # Minimum distance between points
-
+    tries = 30  # Number of tries to find a suitable point
+    shape = 'circle'  # Shape of the refinement (circle or rectangle)
+    
     # Animate the refinement process and get the final refined points
-    refined_points = animate_refinement(points, specified_points, radius, refinement_factor, min_distance, save_path='refinement_animation.mp4')
+    refined_points = animate_refinement(points, specified_points, radius, refinement_factor, min_distance, tries, shape, save_path='refinement_animation.mp4')
     
     # Generate the triangulation with the refined points
     points_array = np.array([[p.x, p.y] for p in refined_points])
