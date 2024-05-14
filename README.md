@@ -6,7 +6,8 @@ A simple animation of pointwise mesh refinement using Delaunay triangulation. Th
 https://github.com/TusharKapur/Mesh-Refinement-Animation/assets/107989848/6dabcd67-bfbf-45e1-a549-4d8c27d5f181
 
 # Solved Heat equation
-![temperature](https://github.com/TusharKapur/Mesh-Refinement-Animation/assets/107989848/0895e408-68b4-4fb5-bc00-287fc1baf94b)
+![image](https://github.com/TusharKapur/Mesh-Refinement-Animation/assets/107989848/6984cfab-f3c0-49e8-a16c-ab6f7bbd13a8)
+
 
 ## Requirements
 
