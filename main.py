@@ -84,8 +84,9 @@ def animate_refinement(points, specified_points, radius, refinement_factor, min_
 
     ani = FuncAnimation(fig, update, frames=frames, interval=100, blit=True, repeat=False)  # Increased interval to slow down
 
-    if save_path:
-        ani.save(save_path, writer='ffmpeg', fps=60)
+    # Uncomment to save the animation. Works only if ffmpeg is installed.
+    # if save_path:
+    #     ani.save(save_path, writer='ffmpeg', fps=60)
 
     plt.show()
 
